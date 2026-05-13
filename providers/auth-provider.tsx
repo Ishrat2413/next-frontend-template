@@ -1,9 +1,9 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { type Role } from "../constants/roles";
+import { createContext, useContext, useState } from "react";
+import { ROLES, type Role } from "../constants/roles";
 import { DEMO_USERS } from "../constants/demo-users";
 
 interface AuthContextType {
-  user: typeof DEMO_USERS[0] | null;
+  user: (typeof DEMO_USERS)[0] | null;
   login: (email: string) => void;
   logout: () => void;
   isLoading: boolean;
@@ -13,18 +13,37 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   login: () => {},
   logout: () => {},
-  isLoading: true,
+  isLoading: false,
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<typeof DEMO_USERS[0] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+const normalizeRole = (role: unknown): Role => {
+  if (role === ROLES.USER || role === "user" || role === "User")
+    return ROLES.USER;
+  if (role === ROLES.MANAGER || role === "manager" || role === "Manager")
+    return ROLES.MANAGER;
+  if (role === ROLES.ADMIN || role === "admin" || role === "Admin")
+    return ROLES.ADMIN;
+  return ROLES.USER;
+};
 
-  useEffect(() => {
-    const saved = localStorage.getItem("auth-user");
-    if (saved) setUser(JSON.parse(saved));
-    setIsLoading(false);
-  }, []);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<(typeof DEMO_USERS)[0] | null>(() => {
+    if (typeof window === "undefined") return null;
+
+    try {
+      const saved = localStorage.getItem("auth-user");
+      if (!saved) return null;
+
+      const parsed = JSON.parse(saved) as (typeof DEMO_USERS)[0];
+      return {
+        ...parsed,
+        role: normalizeRole(parsed.role),
+      };
+    } catch {
+      return null;
+    }
+  });
+  const isLoading = false;
 
   const login = (email: string) => {
     const found = DEMO_USERS.find((u) => u.email === email);
