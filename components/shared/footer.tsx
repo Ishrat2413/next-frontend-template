@@ -19,7 +19,7 @@ const legalLinks = [
 
 const Footer = () => {
   return (
-    <footer className='w-full bg-green-50 bg-fill-hover'>
+    <footer className='w-full bg-[#f1f5ec] bg-fill-hover'>
       <div className='px-4 py-10 sm:px-6 md:mx-12.5 md:px-0'>
         {/* TOP GRID */}
         <div className='grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-20'>
