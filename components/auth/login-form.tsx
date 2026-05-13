@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { DEMO_USERS } from "@/constants/demo-users";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -27,21 +28,21 @@ export default function LoginForm() {
   };
 
   return (
-    <section className='flex min-h-screen w-full'>
-      {/* Left: Image */}
-      <div className='hidden lg:flex w-1/2 bg-slate-900 relative'>
-        <div className='absolute inset-0 bg-linear-to-tr from-blue-600/50 to-purple-600/50' />
-        <div className='relative z-10 flex flex-col justify-center px-12 text-white'>
-          <h2 className='text-4xl font-bold mb-6'>Welcome Back</h2>
-          <p className='text-lg text-slate-200'>
-            Log in to continue your journey and manage your dashboard.
-          </p>
+    <section className='flex min-h-screen w-full bg-[#fdf5f7] items-center justify-center p-4 sm:p-8'>
+      <div className='w-full 2xl:px-40 xl:px-32 lg:px-24 md:px-12 sm:px-8 px-0 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-25 items-stretch'>
+        {/* Left Side: Rounded image card — matches screenshot */}
+        <div className='relative hidden md:block w-full h-full min-h-125 rounded-2xl overflow-hidden shadow-sm'>
+          <Image
+            src='/images/auth.png'
+            alt='Style City Login Background'
+            fill
+            className='object-cover object-center scale-[1.02]'
+            priority
+          />
         </div>
-      </div>
 
-      {/* Right: Form */}
-      <div className='w-full lg:w-1/2 flex items-center justify-center p-8 bg-white'>
-        <div className='w-full max-w-md space-y-8'>
+        {/* Right Side: Form — content unchanged */}
+        <div className='w-full mx-auto md:mx-0 flex flex-col justify-center py-6'>
           <div className='text-center'>
             <Link
               href='/'
@@ -51,13 +52,12 @@ export default function LoginForm() {
             <h1 className='text-3xl font-bold'>Sign In</h1>
           </div>
 
-          <form onSubmit={handleSubmit} className='space-y-4'>
+          <form onSubmit={handleSubmit} className='space-y-4 mt-8'>
             {error && (
               <div className='text-red-500 text-sm bg-red-50 p-3 rounded'>
                 {error}
               </div>
             )}
-
             <input
               type='email'
               placeholder='Email'
@@ -84,21 +84,21 @@ export default function LoginForm() {
             </div>
             <button
               type='submit'
-              className='w-full p-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all font-semibold'>
+              className='w-full p-4 bg-[#4D7C0F] text-white rounded-xl hover:bg-[#3a5f0c] transition-all font-semibold'>
               Sign In
             </button>
           </form>
 
-          <div>
+          <div className='mt-4'>
             Didn&apos;t have an account?{" "}
             <Link
               href='/signup'
-              className='text-blue-600 font-semibold hover:underline'>
+              className='text-[#4D7C0F] font-semibold hover:underline'>
               Sign up
             </Link>
           </div>
 
-          <div className='border-t pt-8'>
+          <div className='border-t pt-8 mt-8'>
             <p className='text-sm text-slate-500 mb-4'>
               Demo Accounts (Click to autofill):
             </p>

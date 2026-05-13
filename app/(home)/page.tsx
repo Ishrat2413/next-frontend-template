@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <section>
-      <p>Welcome to the home page!</p>
+    <section className='text-center my-12'>
+      <p className='text-xl'>Welcome to the home page!</p>
     </section>
   );
 }
